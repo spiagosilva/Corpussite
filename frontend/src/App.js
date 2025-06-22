@@ -127,7 +127,7 @@ const App = () => {
               </h2>
               <p className="text-xl mb-8 text-gray-300">
                 Prepare-se com os melhores professores e materiais atualizados. 
-                Metodologia comprovada com milhares de aprovados.
+                Metodologia comprovada com milhares de aprovados. Todo tipo de material, sem mensalidades!
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a href="#courses" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-center">
