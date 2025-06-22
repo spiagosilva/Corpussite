@@ -147,26 +147,36 @@ const App = () => {
               
               {/* Features Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                  
-                  {/* Simulados */}
-                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
-                    <div className="text-6xl mb-3">📔</div>
-                    <p className="text-white font-semibold text-lg">Simulados baseados na Banca</p>
+                <div className="text-center">
+                  {/* Texto promocional */}
+                  <div className="mb-8">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-wide mb-2 bg-blue-600/90 backdrop-blur-sm rounded-lg py-3 px-6 border border-blue-400">
+                      Veja nossos diferenciais: TUDO, por um preço único e acessível!
+                    </h3>
                   </div>
                   
-                  {/* Vídeo-aulas */}
-                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
-                    <div className="text-6xl mb-3">▶️</div>
-                    <p className="text-white font-semibold text-lg">Vídeo-aulas completas</p>
+                  {/* Cards dos diferenciais */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    {/* Simulados */}
+                    <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                      <div className="text-6xl mb-3">📔</div>
+                      <p className="text-white font-semibold text-lg">Simulados baseados na Banca</p>
+                    </div>
+                    
+                    {/* Vídeo-aulas */}
+                    <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                      <div className="text-6xl mb-3">▶️</div>
+                      <p className="text-white font-semibold text-lg">Vídeo-aulas completas</p>
+                    </div>
+                    
+                    {/* Mapas Mentais */}
+                    <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                      <div className="text-6xl mb-3">🧠</div>
+                      <p className="text-white font-semibold text-lg">Mapas mentais</p>
+                    </div>
+                    
                   </div>
-                  
-                  {/* Mapas Mentais */}
-                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
-                    <div className="text-6xl mb-3">🧠</div>
-                    <p className="text-white font-semibold text-lg">Mapas mentais</p>
-                  </div>
-                  
                 </div>
               </div>
             </div>
