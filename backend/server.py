@@ -21,9 +21,9 @@ STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
 # Course packages with fixed prices
 COURSE_PACKAGES = {
-    1: {"name": "Concursos Federais Premium", "price": 299.99, "currency": "brl"},
-    2: {"name": "Tribunais e Judiciário", "price": 249.99, "currency": "brl"},
-    3: {"name": "Preparação Intensiva", "price": 399.99, "currency": "brl"}
+    1: {"name": "Agente PRF", "price": 149.90, "currency": "brl"},
+    2: {"name": "GCM Mairiporã", "price": 69.90, "currency": "brl"},
+    3: {"name": "SD-PMSP", "price": 89.90, "currency": "brl"}
 }
 
 # Request models
@@ -44,7 +44,7 @@ payment_transactions = {}
 
 @app.get("/api/")
 async def hello():
-    return {"message": "ConcursoPrep API - Preparatórios para Concursos Públicos"}
+    return {"message": "ConcursoPrep API - Preparatórios para Concursos de Segurança Pública"}
 
 @app.post("/api/checkout")
 async def create_checkout_session(request: CheckoutRequest):
