@@ -23,7 +23,7 @@ const App = () => {
         "Suporte direto com professores",
         "Garantia de 30 dias"
       ],
-      image: "https://images.pexels.com/photos/32668039/pexels-photo-32668039.jpeg"
+      image: "https://images.pexels.com/photos/6105483/pexels-photo-6105483.jpeg"
     },
     {
       id: 2,
@@ -38,7 +38,7 @@ const App = () => {
         "Mentoria individual",
         "Certificado de conclusão"
       ],
-      image: "https://images.pexels.com/photos/10638082/pexels-photo-10638082.jpeg"
+      image: "https://images.pexels.com/photos/32622315/pexels-photo-32622315.jpeg"
     },
     {
       id: 3,
@@ -53,7 +53,7 @@ const App = () => {
         "Plantão de dúvidas 24h",
         "Grupos de estudo VIP"
       ],
-      image: "https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg"
+      image: "https://images.pexels.com/photos/32622317/pexels-photo-32622317.jpeg"
     }
   ];
 
@@ -106,7 +106,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-400">ConcursoPrep</h1>
+              <h1 className="text-2xl font-bold text-blue-400">CORPUS Preparatório</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
               <a href="#courses" className="text-gray-300 hover:text-blue-400">Cursos</a>
@@ -276,7 +276,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h4 className="text-xl font-bold mb-4">ConcursoPrep</h4>
+              <h4 className="text-xl font-bold mb-4">CORPUS Preparatório</h4>
               <p className="text-gray-400">
                 Sua plataforma de preparação para concursos públicos com metodologia comprovada.
               </p>
@@ -300,14 +300,14 @@ const App = () => {
             <div>
               <h5 className="font-semibold mb-4">Contato</h5>
               <ul className="space-y-2 text-gray-400">
-                <li>contato@concursoprep.com</li>
+                <li>contato@corpuspreparatorio.com</li>
                 <li>(11) 9999-9999</li>
                 <li>WhatsApp: (11) 9999-9999</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 ConcursoPrep. Todos os direitos reservados.</p>
+            <p>&copy; 2025 CORPUS Preparatório. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

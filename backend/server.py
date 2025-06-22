@@ -44,7 +44,7 @@ payment_transactions = {}
 
 @app.get("/api/")
 async def hello():
-    return {"message": "ConcursoPrep API - Preparatórios para Concursos de Segurança Pública"}
+    return {"message": "CORPUS Preparatório API - Preparatórios para Concursos de Segurança Pública"}
 
 @app.post("/api/checkout")
 async def create_checkout_session(request: CheckoutRequest):
@@ -76,7 +76,7 @@ async def create_checkout_session(request: CheckoutRequest):
             metadata={
                 "course_id": str(request.course_id),
                 "course_name": course["name"],
-                "source": "concurso_prep_website"
+                "source": "corpus_preparatorio_website"
             }
         )
         
