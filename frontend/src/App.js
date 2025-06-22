@@ -142,8 +142,33 @@ const App = () => {
               <img 
                 src="https://images.unsplash.com/photo-1639069431794-8b42626f9711?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHwzfHx0YWN0aWNhbCUyMHBvbGljZXxlbnwwfHx8fDE3NTA2Mjk5MjR8MA&ixlib=rb-4.1.0&q=85" 
                 alt="Operador de Guerra"
-                className="w-full rounded-lg shadow-2xl"
+                className="w-full rounded-lg shadow-2xl opacity-20"
               />
+              
+              {/* Features Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                  
+                  {/* Simulados */}
+                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                    <div className="text-6xl mb-3">📔</div>
+                    <p className="text-white font-semibold text-lg">Simulados baseados na Banca</p>
+                  </div>
+                  
+                  {/* Vídeo-aulas */}
+                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                    <div className="text-6xl mb-3">▶️</div>
+                    <p className="text-white font-semibold text-lg">Vídeo-aulas completas</p>
+                  </div>
+                  
+                  {/* Mapas Mentais */}
+                  <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600">
+                    <div className="text-6xl mb-3">🧠</div>
+                    <p className="text-white font-semibold text-lg">Mapas mentais</p>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
           </div>
         </div>
