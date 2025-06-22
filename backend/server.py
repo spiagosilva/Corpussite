@@ -1,75 +1,154 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Optional, Dict
 import os
-import logging
-from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
-import uuid
-from datetime import datetime
+from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
 
-
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
-
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
-
-# Create the main app without a prefix
 app = FastAPI()
 
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
-
-
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
-
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
-
-# Include the router in the main app
-app.include_router(api_router)
-
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_credentials=True,
     allow_origins=["*"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Stripe configuration
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+# Course packages with fixed prices
+COURSE_PACKAGES = {
+    1: {"name": "Concursos Federais Premium", "price": 299.99, "currency": "brl"},
+    2: {"name": "Tribunais e Judiciário", "price": 249.99, "currency": "brl"},
+    3: {"name": "Preparação Intensiva", "price": 399.99, "currency": "brl"}
+}
+
+# Request models
+class CheckoutRequest(BaseModel):
+    course_id: int
+    origin_url: str
+
+class PaymentTransaction(BaseModel):
+    session_id: str
+    course_id: int
+    amount: float
+    currency: str
+    payment_status: str
+    metadata: Dict[str, str]
+
+# In-memory storage for demo (in production, use a real database)
+payment_transactions = {}
+
+@app.get("/api/")
+async def hello():
+    return {"message": "ConcursoPrep API - Preparatórios para Concursos Públicos"}
+
+@app.post("/api/checkout")
+async def create_checkout_session(request: CheckoutRequest):
+    try:
+        # Validate course exists
+        if request.course_id not in COURSE_PACKAGES:
+            raise HTTPException(status_code=400, detail="Curso inválido")
+        
+        # Get course details
+        course = COURSE_PACKAGES[request.course_id]
+        
+        # Validate Stripe API key
+        if not STRIPE_API_KEY:
+            raise HTTPException(status_code=500, detail="Stripe API key não configurada")
+        
+        # Initialize Stripe checkout
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY)
+        
+        # Build success and cancel URLs
+        success_url = f"{request.origin_url}/success?session_id={{CHECKOUT_SESSION_ID}}"
+        cancel_url = f"{request.origin_url}/cancel"
+        
+        # Create checkout session request
+        checkout_request = CheckoutSessionRequest(
+            amount=course["price"],
+            currency=course["currency"],
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata={
+                "course_id": str(request.course_id),
+                "course_name": course["name"],
+                "source": "concurso_prep_website"
+            }
+        )
+        
+        # Create checkout session
+        session: CheckoutSessionResponse = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Store transaction record
+        payment_transactions[session.session_id] = {
+            "session_id": session.session_id,
+            "course_id": request.course_id,
+            "amount": course["price"],
+            "currency": course["currency"],
+            "payment_status": "pending",
+            "course_name": course["name"],
+            "metadata": checkout_request.metadata
+        }
+        
+        return {"url": session.url, "session_id": session.session_id}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao criar sessão de checkout: {str(e)}")
+
+@app.get("/api/checkout/status/{session_id}")
+async def get_checkout_status(session_id: str):
+    try:
+        # Check if we have this transaction
+        if session_id not in payment_transactions:
+            raise HTTPException(status_code=404, detail="Transação não encontrada")
+        
+        # Validate Stripe API key
+        if not STRIPE_API_KEY:
+            raise HTTPException(status_code=500, detail="Stripe API key não configurada")
+        
+        # Initialize Stripe checkout
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY)
+        
+        # Get status from Stripe
+        status_response: CheckoutStatusResponse = await stripe_checkout.get_checkout_status(session_id)
+        
+        # Update our transaction record
+        transaction = payment_transactions[session_id]
+        transaction["payment_status"] = status_response.payment_status
+        transaction["status"] = status_response.status
+        
+        # Return status information
+        return {
+            "session_id": session_id,
+            "status": status_response.status,
+            "payment_status": status_response.payment_status,
+            "amount_total": status_response.amount_total,
+            "currency": status_response.currency,
+            "course_name": transaction.get("course_name"),
+            "metadata": status_response.metadata
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao verificar status do pagamento: {str(e)}")
+
+@app.get("/api/courses")
+async def get_courses():
+    """Get available courses"""
+    courses = []
+    for course_id, course_info in COURSE_PACKAGES.items():
+        courses.append({
+            "id": course_id,
+            "name": course_info["name"],
+            "price": course_info["price"],
+            "currency": course_info["currency"]
+        })
+    return {"courses": courses}
+
+@app.get("/api/transactions")
+async def get_transactions():
+    """Get all payment transactions (for admin purposes)"""
+    return {"transactions": list(payment_transactions.values())}
