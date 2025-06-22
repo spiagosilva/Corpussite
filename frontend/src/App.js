@@ -106,12 +106,12 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-blue-400">CORPUS Preparatório</h1>
+              <h1 className="text-2xl font-bold text-white">CORPUS Preparatório</h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="#courses" className="text-gray-300 hover:text-blue-400">Cursos</a>
-              <a href="#about" className="text-gray-300 hover:text-blue-400">Sobre</a>
-              <a href="#testimonials" className="text-gray-300 hover:text-blue-400">Depoimentos</a>
+              <a href="#courses" className="text-gray-300 hover:text-white">Cursos</a>
+              <a href="#about" className="text-gray-300 hover:text-white">Sobre</a>
+              <a href="#testimonials" className="text-gray-300 hover:text-white">Depoimentos</a>
             </nav>
           </div>
         </div>
@@ -130,10 +130,10 @@ const App = () => {
                 Metodologia comprovada com milhares de aprovados. Todo tipo de material, sem mensalidades!
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="#courses" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-center">
+                <a href="#courses" className="bg-white text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors text-center">
                   Ver Cursos
                 </a>
-                <button className="border-2 border-blue-400 text-blue-400 px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 hover:text-black transition-colors">
+                <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-black transition-colors">
                   Baixe AQUI o Raio X da Polícia Federal
                 </button>
               </div>
@@ -150,7 +150,7 @@ const App = () => {
                 <div className="text-center">
                   {/* Texto promocional */}
                   <div className="mb-8">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white uppercase tracking-wide mb-2 bg-blue-600/90 backdrop-blur-sm rounded-lg py-3 px-6 border border-blue-400">
+                    <h3 className="text-2xl md:text-3xl font-bold text-black uppercase tracking-wide mb-2 bg-white/90 backdrop-blur-sm rounded-lg py-3 px-6 border border-white">
                       Veja nossos diferenciais: TUDO, por um preço único e acessível!
                     </h3>
                   </div>
@@ -189,19 +189,19 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-blue-400 mb-2">15.000+</div>
+              <div className="text-4xl font-bold text-white mb-2">15.000+</div>
               <div className="text-gray-300">Alunos Aprovados</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-blue-400 mb-2">98%</div>
+              <div className="text-4xl font-bold text-white mb-2">98%</div>
               <div className="text-gray-300">Taxa de Satisfação</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-blue-400 mb-2">50+</div>
+              <div className="text-4xl font-bold text-white mb-2">50+</div>
               <div className="text-gray-300">Horas de Conteúdo</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-blue-400 mb-2">24/7</div>
+              <div className="text-4xl font-bold text-white mb-2">24/7</div>
               <div className="text-gray-300">Suporte Disponível</div>
             </div>
           </div>
@@ -233,7 +233,7 @@ const App = () => {
                   <p className="text-gray-300 mb-4">{course.description}</p>
                   
                   <div className="mb-4">
-                    <div className="text-3xl font-bold text-blue-400 mb-1">
+                    <div className="text-3xl font-bold text-white mb-1">
                       R$ {course.price.toFixed(2).replace('.', ',')}
                     </div>
                     <div className="text-sm text-gray-400">{course.duration}</div>
@@ -253,7 +253,7 @@ const App = () => {
                   <button 
                     onClick={() => handleCheckout(course)}
                     disabled={isLoading}
-                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-white text-black py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? 'Processando...' : 'Comprar Agora'}
                   </button>
@@ -283,7 +283,7 @@ const App = () => {
                 <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
                 <div className="text-center">
                   <div className="font-semibold text-white">{testimonial.name}</div>
-                  <div className="text-sm text-blue-400">{testimonial.role}</div>
+                  <div className="text-sm text-white">{testimonial.role}</div>
                 </div>
               </div>
             ))}
@@ -292,15 +292,15 @@ const App = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-blue-900 text-white">
+      <section className="py-16 bg-gray-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-4xl font-bold mb-4">
             Pronto Para Conquistar Sua Vaga?
           </h3>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-gray-300">
             Junte-se a milhares de aprovados e comece sua jornada rumo à estabilidade no serviço público.
           </p>
-          <a href="#courses" className="bg-white text-blue-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block">
+          <a href="#courses" className="bg-white text-black px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors inline-block">
             Escolher Meu Curso
           </a>
         </div>
